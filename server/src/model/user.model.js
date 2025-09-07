@@ -2,9 +2,13 @@ import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 const userSchema = new Schema({
+    _id: {
+        type: String,
+        required: true,
+    },
     name: {
         type: String,
-        required: true,        
+        required: false,        
     },
     email: {
         type: String,
@@ -13,23 +17,15 @@ const userSchema = new Schema({
         lowercase: true,
         index: true,
     },
-    password: {
-        type: String,
-        select: false,
-    },
-    authProvider: {
-        type: String,
-        required: true,
-        enum: ["local", "google", "apple", "facebook"],
-        default: "local",
-    },
-    authProviderId: {
-        type: String,
-        default: null,
+    isPasswordEnabled: {
+        type: Boolean,
     },
     isEmailVerified: {
         type: Boolean,
         default: false,
+    },
+    hasImage: {
+        type: Boolean,
     },
     avatarUrl: {
         type: String,
@@ -38,19 +34,14 @@ const userSchema = new Schema({
     lastLoginAt: {
         type: Date,
         default: null,
+    },
+    lastActiveAt: {
+        type: Date,
+        default: null,
     }
 },
 {
     timestamps: true
 })
-
-userSchema.pre("save", async function(next) {
-    if(!this.isModified("password")) next();
-    this.password = await bcrypt.hash(this.password, 10);
-})
-
-userSchema.methods.isPasswordCorrect = async function(password) {
-    return await bcrypt.compare(password, this.password);
-}
 
 export const User = mongoose.model("User", userSchema);

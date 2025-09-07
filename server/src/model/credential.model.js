@@ -22,7 +22,7 @@ const credentialSchema = new Schema({
     },
     password: {
         type: String,
-        required: true, // encryption
+        required: true,
     },
     notes: {
         type: String,
