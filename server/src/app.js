@@ -15,7 +15,14 @@ app.use(
     extended: true,
   })
 );
-app.use(express.json());
+
+app.use((req, res, next) => {
+  if(req.originalUrl.startsWith("/api/v1/webhooks")){
+    next();
+  } else {
+    express.json()(req, res, next);
+  }
+})
 app.use("/", (req, res) => {
   res.send("API Working");
 });
