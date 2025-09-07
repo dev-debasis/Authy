@@ -1,6 +1,6 @@
 import express, { urlencoded } from "express";
 import cors from "cors";
-import { clerkWebhook } from "./controller/webhook.controller.js";
+import webhookRoutes from "./routes/webhook.routes.js";
 
 const app = express();
 
@@ -19,6 +19,6 @@ app.use(express.json());
 app.use("/", (req, res) => {
   res.send("API Working");
 });
-app.use("/api/v1/webhooks", clerkWebhook);
+app.use("/api/v1/webhooks", webhookRoutes);
 
 export { app };
