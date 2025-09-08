@@ -2,7 +2,7 @@ import { Router } from "express";
 import express from "express";
 import { clerkWebhook } from "../controller/webhook.controller.js";
 
-const router = Router();
+const   router = Router();
 
 router.post(
     "/clerk", 

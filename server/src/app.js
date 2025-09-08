@@ -23,9 +23,10 @@ app.use((req, res, next) => {
     express.json()(req, res, next);
   }
 })
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("API Working");
 });
 app.use("/api/v1/webhooks", webhookRoutes);
+
 
 export { app };
