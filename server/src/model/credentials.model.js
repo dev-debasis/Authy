@@ -1,10 +1,9 @@
 import mongoose, { Schema } from "mongoose";
-import { encrypt, decrypt } from "../utils/crypto";
+import { encrypt, decrypt } from "../utils/crypto.js";
 
 const credentialSchema = new Schema({
     userId: {
-        type: mongoose.Types.ObjectId,
-        ref: "User",
+        type: String,
         required: true,
     },
     title: {
@@ -45,12 +44,12 @@ const credentialSchema = new Schema({
 })
 
 credentialSchema.pre("save", async function(next) {
-    if(!this.isModified(this.password)) next();
+    if(!this.isModified("password")) next();
     this.password = encrypt(this.password);
     next();
 });
 
-credentialSchema.methods.getDecryptedPassword = () => {
+credentialSchema.methods.getDecryptedPassword = function() {
     return decrypt(this.password);
 }
 

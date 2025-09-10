@@ -1,8 +1,11 @@
 import crypto from "crypto";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const ALGORITHM = process.env.ALGORITHM;
 const KEY = Buffer.from(process.env.CREDENTIALS_ENCRYPTION_KEY, "utf-8");
-const IV_LENGTH = process.env.IV_LENGTH;
+const IV_LENGTH = parseInt(process.env.IV_LENGTH, 10);
 
 export function encrypt(text) {
   const iv = crypto.randomBytes(IV_LENGTH);
